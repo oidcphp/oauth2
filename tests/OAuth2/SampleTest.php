@@ -1,8 +1,8 @@
 <?php
 
-namespace Tests;
+namespace Tests\OAuth2;
 
-use MilesChou\Template\Sample;
+use OpenIDConnect\OAuth2\Sample;
 use PHPUnit\Framework\TestCase;
 
 class SampleTest extends TestCase
