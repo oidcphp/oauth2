@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenIDConnect\OAuth2;
 
 use OpenIDConnect\Support\Http\Query;

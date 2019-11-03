@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace OpenIDConnect\OAuth2\ClientAuthentication;
 
 use Psr\Http\Message\RequestInterface;
