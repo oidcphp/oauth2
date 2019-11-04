@@ -1,0 +1,27 @@
+<?php
+
+namespace Tests\OAuth2\Grant;
+
+use OpenIDConnect\OAuth2\Grant\Password;
+use PHPUnit\Framework\TestCase;
+
+class PasswordTest extends TestCase
+{
+    /**
+     * @test
+     */
+    public function shouldReturnOkayWhenRequireParametersIsReady(): void
+    {
+        $target = new Password();
+
+        $actual = $target->prepareRequestParameters([
+            'username' => 'some-username',
+            'password' => 'some-password',
+            'redirect_uri' => 'https://someredirect',
+        ]);
+
+        $this->assertSame('password', $actual['grant_type']);
+        $this->assertSame('some-username', $actual['username']);
+        $this->assertSame('some-password', $actual['password']);
+    }
+}
