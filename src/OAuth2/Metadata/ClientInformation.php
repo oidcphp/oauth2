@@ -34,9 +34,11 @@ class ClientInformation extends ClientMetadata
     /**
      * OAuth 2.0 client secret string.
      *
-     * @return string|null
+     * PHP Server will be a confidential client, so secret is REQUIRED.
+     *
+     * @return string
      */
-    public function secret(): ?string
+    public function secret(): string
     {
         return $this->get('client_secret');
     }
