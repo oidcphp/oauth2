@@ -2,6 +2,7 @@
 
 namespace Tests\OAuth2;
 
+use Http\Factory\Guzzle\RequestFactory;
 use OpenIDConnect\OAuth2\RequestBuilder;
 use Tests\TestCase;
 
@@ -12,7 +13,7 @@ class RequestBuilderTest extends TestCase
      */
     public function shouldReturn(): void
     {
-        $target = (new RequestBuilder())
+        $target = (new RequestBuilder(new RequestFactory()))
             ->setProviderMetadata($this->createProviderMetadata())
             ->setClientInformation($this->createClientInformation());
 

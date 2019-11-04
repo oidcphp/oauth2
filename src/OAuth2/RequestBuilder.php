@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace OpenIDConnect\OAuth2;
 
-use Http\Factory\Guzzle\RequestFactory;
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
 use OpenIDConnect\OAuth2\Metadata\ClientInformationAwaitTrait;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadataAwaitTrait;
@@ -18,15 +17,10 @@ class RequestBuilder
     use ProviderMetadataAwaitTrait;
 
     /**
-     * @param RequestFactoryInterface|null $baseRequestFactory
+     * @param RequestFactoryInterface $baseRequestFactory
      */
-    public function __construct(RequestFactoryInterface $baseRequestFactory = null)
+    public function __construct(RequestFactoryInterface $baseRequestFactory)
     {
-        // Default base factory is implement by Guzzle
-        if (null === $baseRequestFactory) {
-            $baseRequestFactory = new RequestFactory();
-        }
-
         $this->baseRequestFactory = $baseRequestFactory;
     }
 
