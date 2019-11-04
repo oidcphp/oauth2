@@ -13,10 +13,9 @@ class ProviderMetadataTest extends TestCase
     public function shouldBeOkayWhenNewInstance(): void
     {
         $target = new ProviderMetadata([
-            'some' => 'value',
+            'token_endpoint' => 'some-token-endpoint',
         ]);
 
-        $this->assertTrue($target->has('some'));
-        $this->assertFalse($target->has('whatever'));
+        $this->assertSame('some-token-endpoint', $target->tokenEndpoint());
     }
 }

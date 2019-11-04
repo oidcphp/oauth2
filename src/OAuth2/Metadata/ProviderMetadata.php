@@ -22,4 +22,16 @@ class ProviderMetadata implements JsonSerializable
     {
         $this->metadata = $metadata;
     }
+
+    /**
+     * URL of the authorization server's token endpoint.
+     *
+     * This is REQUIRED unless only the implicit grant type is supported.
+     *
+     * @return mixed
+     */
+    public function tokenEndpoint()
+    {
+        return $this->get('token_endpoint');
+    }
 }

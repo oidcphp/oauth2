@@ -4,22 +4,50 @@ declare(strict_types=1);
 
 namespace OpenIDConnect\OAuth2\Metadata;
 
-use JsonSerializable;
-
 /**
  * Client information
  *
  * @see https://tools.ietf.org/html/rfc7591#section-3.2.1
  */
-class ClientInformation implements JsonSerializable
+class ClientInformation extends ClientMetadata
 {
-    use MetadataTraits;
+    /**
+     * OAuth 2.0 client identifier string.
+     *
+     * @return string
+     */
+    public function id(): string
+    {
+        return $this->get('client_id');
+    }
 
     /**
-     * @param array $metadata
+     * Time at which the client identifier was issued.
+     *
+     * @return int|null
      */
-    public function __construct(array $metadata)
+    public function issuedAt(): ?int
     {
-        $this->metadata = $metadata;
+        return $this->get('client_id_issued_at');
+    }
+
+    /**
+     * OAuth 2.0 client secret string.
+     *
+     * @return string|null
+     */
+    public function secret(): ?string
+    {
+        return $this->get('client_secret');
+    }
+
+    /**
+     * Time at which the client secret will expire or 0 if it will not expire.
+     *
+     * @return int|null
+     */
+    public function expiresAt(): ?int
+    {
+        return $this->get('client_secret_expires_at');
     }
 }
