@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenIDConnect\OAuth2;
 
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
+use OpenIDConnect\OAuth2\Grant\GrantType;
 use OpenIDConnect\OAuth2\Metadata\ClientInformationAwaitTrait;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadataAwaitTrait;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -15,12 +16,18 @@ class RequestBuilder
     use ClientAuthenticationAwareTrait;
     use ClientInformationAwaitTrait;
     use ProviderMetadataAwaitTrait;
+    /**
+     * @var GrantType
+     */
+    private $grantType;
 
     /**
+     * @param GrantType $grantType
      * @param RequestFactoryInterface $baseRequestFactory
      */
-    public function __construct(RequestFactoryInterface $baseRequestFactory)
+    public function __construct(GrantType $grantType, RequestFactoryInterface $baseRequestFactory)
     {
+        $this->grantType = $grantType;
         $this->baseRequestFactory = $baseRequestFactory;
     }
 
@@ -37,6 +44,8 @@ class RequestBuilder
      */
     public function createTokenRequest(array $parameters): RequestInterface
     {
+        $parameters = $this->grantType->prepareRequestParameters($parameters);
+
         // Decorate by token request factory
         $factory = new TokenRequestFactory($this->baseRequestFactory, $parameters);
 
