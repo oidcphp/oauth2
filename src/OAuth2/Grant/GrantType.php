@@ -48,7 +48,7 @@ abstract class GrantType
      * @param array $parameters
      * @return array
      */
-    public function prepareRequestParameters(array $parameters): array
+    public function prepareTokenRequestParameters(array $parameters): array
     {
         $this->checkRequestParameters($parameters);
 

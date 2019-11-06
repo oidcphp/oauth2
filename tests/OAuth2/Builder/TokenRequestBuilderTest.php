@@ -1,26 +1,26 @@
 <?php
 
-namespace Tests\OAuth2;
+namespace Tests\OAuth2\Builder;
 
+use OpenIDConnect\OAuth2\Builder\TokenRequestBuilder;
 use OpenIDConnect\OAuth2\Grant\AuthorizationCode;
-use OpenIDConnect\OAuth2\RequestBuilder;
 use Tests\TestCase;
 
-class RequestBuilderTest extends TestCase
+class TokenRequestBuilderTest extends TestCase
 {
     /**
      * @test
      */
-    public function shouldReturn(): void
+    public function shouldReturnCorrectRequestInstance(): void
     {
-        $target = (new RequestBuilder($this->createContainer()))
+        $target = (new TokenRequestBuilder($this->createContainer()))
             ->setProviderMetadata($this->createProviderMetadata())
             ->setClientInformation($this->createClientInformation());
 
         // base64_encode('some_id:some_secret')
         $exceptedAuthorization = 'Basic c29tZV9pZDpzb21lX3NlY3JldA==';
 
-        $actual = $target->createTokenRequest(new AuthorizationCode(), [
+        $actual = $target->build(new AuthorizationCode(), [
             'code' => 'some-code',
             'redirect_uri' => 'some-redirect-uri',
         ]);

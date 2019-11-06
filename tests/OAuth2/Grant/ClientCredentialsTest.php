@@ -14,7 +14,7 @@ class ClientCredentialsTest extends TestCase
     {
         $target = new ClientCredentials();
 
-        $actual = $target->prepareRequestParameters([
+        $actual = $target->prepareTokenRequestParameters([
             'redirect_uri' => 'https://someredirect',
         ]);
 

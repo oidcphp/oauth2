@@ -14,7 +14,7 @@ class PasswordTest extends TestCase
     {
         $target = new Password();
 
-        $actual = $target->prepareRequestParameters([
+        $actual = $target->prepareTokenRequestParameters([
             'username' => 'some-username',
             'password' => 'some-password',
             'redirect_uri' => 'https://someredirect',

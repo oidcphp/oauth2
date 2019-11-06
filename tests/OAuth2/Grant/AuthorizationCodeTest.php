@@ -15,7 +15,7 @@ class AuthorizationCodeTest extends TestCase
     {
         $target = new AuthorizationCode();
 
-        $actual = $target->prepareRequestParameters([
+        $actual = $target->prepareTokenRequestParameters([
             'code' => 'some',
             'redirect_uri' => 'https://someredirect',
         ]);
@@ -32,6 +32,6 @@ class AuthorizationCodeTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         $target = new AuthorizationCode();
-        $target->prepareRequestParameters([]);
+        $target->prepareTokenRequestParameters([]);
     }
 }

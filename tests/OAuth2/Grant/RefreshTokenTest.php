@@ -14,7 +14,7 @@ class RefreshTokenTest extends TestCase
     {
         $target = new RefreshToken();
 
-        $actual = $target->prepareRequestParameters([
+        $actual = $target->prepareTokenRequestParameters([
             'refresh_token' => 'some',
             'redirect_uri' => 'https://someredirect',
         ]);
