@@ -24,6 +24,18 @@ class ProviderMetadata implements JsonSerializable
     }
 
     /**
+     * URL of the authorization server's authorization endpoint
+     *
+     * This is REQUIRED unless no grant types are supported that use the authorization endpoint.
+     *
+     * @return mixed
+     */
+    public function authorizationEndpoint()
+    {
+        return $this->get('authorization_endpoint');
+    }
+
+    /**
      * URL of the authorization server's token endpoint.
      *
      * This is REQUIRED unless only the implicit grant type is supported.
