@@ -14,8 +14,10 @@ class ProviderMetadataTest extends TestCase
     {
         $target = new ProviderMetadata([
             'token_endpoint' => 'some-token-endpoint',
+            'authorization_endpoint' => 'some-authorization-endpoint',
         ]);
 
+        $this->assertSame('some-authorization-endpoint', $target->authorizationEndpoint());
         $this->assertSame('some-token-endpoint', $target->tokenEndpoint());
     }
 }

@@ -9,7 +9,7 @@ trait ClientInformationAwaitTrait
     /**
      * @var ClientInformation
      */
-    private $clientInformation;
+    protected $clientInformation;
 
     /**
      * @param ClientInformation $clientInformation

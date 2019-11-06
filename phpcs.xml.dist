@@ -16,4 +16,9 @@
     <!-- Paths and file to check -->
     <file>src</file>
     <file>tests</file>
+
+    <!-- specific and just exclude rules in some file -->
+    <rule ref="Generic.Files.LineLength.TooLong">
+        <exclude-pattern>tests</exclude-pattern>
+    </rule>
 </ruleset>

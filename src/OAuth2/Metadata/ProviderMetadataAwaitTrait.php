@@ -9,7 +9,7 @@ trait ProviderMetadataAwaitTrait
     /**
      * @var ProviderMetadata
      */
-    private $providerMetadata;
+    protected $providerMetadata;
 
     /**
      * @param ProviderMetadata $providerMetadata

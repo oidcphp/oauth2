@@ -52,4 +52,14 @@ class ClientInformation extends ClientMetadata
     {
         return $this->get('client_secret_expires_at');
     }
+
+    /**
+     * Default redirect URI
+     *
+     * @return string|null
+     */
+    public function redirectUri(): ?string
+    {
+        return $this->get('redirect_uri');
+    }
 }
