@@ -15,9 +15,8 @@ class ClientSecretBasicTest extends TestCase
     {
         $expected = base64_encode('c:s');
         $target = new ClientSecretBasic('c', 's');
-        $target->setRequestFactory(new RequestFactory());
 
-        $actual = $target->createRequest('GET', 'whatever');
+        $actual = $target->processRequest((new RequestFactory())->createRequest('GET', 'whatever'));
 
         $this->assertStringContainsString($expected, (string)$actual->getHeaderLine('Authorization'));
     }

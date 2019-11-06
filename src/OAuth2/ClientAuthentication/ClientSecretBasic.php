@@ -11,7 +11,7 @@ use Psr\Http\Message\RequestInterface;
  *
  * @see https://tools.ietf.org/html/rfc6749#section-2.3.1
  */
-class ClientSecretBasic extends ClientAuthentication
+class ClientSecretBasic implements ClientAuthentication
 {
     /**
      * @var string
@@ -36,7 +36,7 @@ class ClientSecretBasic extends ClientAuthentication
     /**
      * @inheritDoc
      */
-    protected function processRequest(RequestInterface $request): RequestInterface
+    public function processRequest(RequestInterface $request): RequestInterface
     {
         $encodedCredentials = base64_encode(sprintf('%s:%s', $this->client, $this->secret));
 

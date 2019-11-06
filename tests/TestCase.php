@@ -3,13 +3,24 @@
 namespace Tests;
 
 use GuzzleHttp\Client as HttpClient;
+use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response as HttpResponse;
+use Http\Factory\Guzzle\RequestFactory;
+use Http\Factory\Guzzle\ResponseFactory;
+use Http\Factory\Guzzle\StreamFactory;
+use Http\Factory\Guzzle\UriFactory;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
+use OpenIDConnect\Support\Container\Container;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use function GuzzleHttp\json_encode;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -90,6 +101,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     {
         return array_merge([
             'token_endpoint' => 'https://somewhere/token',
+            'authorization_endpoint' => 'https://somewhere/authorization',
         ], $overwrite);
     }
 
@@ -107,5 +119,30 @@ class TestCase extends \PHPUnit\Framework\TestCase
             'refresh_token' => 'some-refresh-token',
             'scope' => 'some-scope',
         ], $overwrite);
+    }
+
+    protected function createContainer(array $instances = []): ContainerInterface
+    {
+        if (empty($instances[ClientInterface::class])) {
+            $instances[ClientInterface::class] = new HttpClient();
+        }
+
+        if (empty($instances[StreamFactoryInterface::class])) {
+            $instances[StreamFactoryInterface::class] = new StreamFactory();
+        }
+
+        if (empty($instances[ResponseFactoryInterface::class])) {
+            $instances[ResponseFactoryInterface::class] = new ResponseFactory();
+        }
+
+        if (empty($instances[RequestFactoryInterface::class])) {
+            $instances[RequestFactoryInterface::class] = new RequestFactory();
+        }
+
+        if (empty($instances[UriFactoryInterface::class])) {
+            $instances[UriFactoryInterface::class] = new UriFactory();
+        }
+
+        return new Container($instances);
     }
 }

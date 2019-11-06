@@ -6,12 +6,11 @@ namespace OpenIDConnect\OAuth2\ClientAuthentication;
 
 use OpenIDConnect\Support\Http\Query;
 use Psr\Http\Message\RequestInterface;
-use function GuzzleHttp\Psr7\stream_for;
 
 /**
  * @see https://tools.ietf.org/html/rfc6749#section-2.3.1
  */
-class ClientSecretPost extends ClientAuthentication
+class ClientSecretPost implements ClientAuthentication
 {
     /**
      * @var string
@@ -36,14 +35,17 @@ class ClientSecretPost extends ClientAuthentication
     /**
      * @inheritDoc
      */
-    protected function processRequest(RequestInterface $request): RequestInterface
+    public function processRequest(RequestInterface $request): RequestInterface
     {
-        $body = (string)$request->getBody();
+        $body = $request->getBody();
 
-        $parsedBody = Query::parse($body);
+        $parsedBody = Query::parse((string)$body);
         $parsedBody['client_id'] = $this->client;
         $parsedBody['client_secret'] = $this->secret;
 
-        return $request->withBody(stream_for(Query::build($parsedBody)));
+        $body->rewind();
+        $body->write(Query::build($parsedBody) . "\0");
+
+        return $request->withBody($body);
     }
 }

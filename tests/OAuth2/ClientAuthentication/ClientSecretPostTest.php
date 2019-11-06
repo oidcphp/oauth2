@@ -14,9 +14,8 @@ class ClientSecretPostTest extends TestCase
     public function shouldReturnClientSecretParameter(): void
     {
         $target = new ClientSecretPost('c', 's');
-        $target->setRequestFactory(new RequestFactory());
 
-        $actual = $target->createRequest('GET', 'whatever');
+        $actual = $target->processRequest((new RequestFactory())->createRequest('GET', 'whatever'));
 
         $this->assertStringContainsString('client_id=c', (string)$actual->getBody());
         $this->assertStringContainsString('client_secret=s', (string)$actual->getBody());
