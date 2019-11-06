@@ -60,16 +60,37 @@ class ClientTest extends TestCase
 
         $actual = $target->createAuthorizeFormPostResponse();
 
-        $this->assertStringContainsStringIgnoringCase(
-            'action="https://somewhere/authorization"',
-            (string)$actual->getBody()
-        );
-        $this->assertStringContainsStringIgnoringCase('name="state"', (string)$actual->getBody());
-        $this->assertStringContainsStringIgnoringCase('name="response_type" value="code"', (string)$actual->getBody());
-        $this->assertStringContainsStringIgnoringCase(
+        $this->assertStringContainsString('action="https://somewhere/authorization"', (string)$actual->getBody());
+        $this->assertStringContainsString('name="state"', (string)$actual->getBody());
+        $this->assertStringContainsString('name="response_type" value="code"', (string)$actual->getBody());
+        $this->assertStringContainsString(
             'name="redirect_uri" value="https://someredirect"',
             (string)$actual->getBody()
         );
-        $this->assertStringContainsStringIgnoringCase('name="client_id" value="some_id"', (string)$actual->getBody());
+        $this->assertStringContainsString('name="client_id" value="some_id"', (string)$actual->getBody());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnRedirectWhenCallCreateRedirect(): void
+    {
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation([
+                'redirect_uri' => 'https://someredirect',
+            ]),
+            $this->createContainer()
+        );
+
+        $actual = $target->createAuthorizeRedirectResponse();
+
+        $actualLocation = $actual->getHeaderLine('Location');
+
+        $this->assertStringStartsWith('https://somewhere/authorization', $actualLocation);
+        $this->assertStringContainsString('state=', $actualLocation);
+        $this->assertStringContainsString('response_type=code', $actualLocation);
+        $this->assertStringContainsString('redirect_uri=' . rawurlencode('https://someredirect'), $actualLocation);
+        $this->assertStringContainsString('client_id=some_id', $actualLocation);
     }
 }

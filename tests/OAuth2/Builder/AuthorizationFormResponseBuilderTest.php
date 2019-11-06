@@ -22,8 +22,8 @@ class AuthorizationFormResponseBuilderTest extends TestCase
             ])
             ->getBody();
 
-        $this->assertStringContainsStringIgnoringCase('action="https://somewhere/authorization"', $actual);
-        $this->assertStringContainsStringIgnoringCase('name="foo" value="a"', $actual);
-        $this->assertStringContainsStringIgnoringCase('name="bar" value="b"', $actual);
+        $this->assertStringContainsString('action="https://somewhere/authorization"', $actual);
+        $this->assertStringContainsString('name="foo" value="a"', $actual);
+        $this->assertStringContainsString('name="bar" value="b"', $actual);
     }
 }

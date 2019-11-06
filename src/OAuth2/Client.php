@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace OpenIDConnect\OAuth2;
 
 use OpenIDConnect\OAuth2\Builder\AuthorizationFormResponseBuilder;
+use OpenIDConnect\OAuth2\Builder\AuthorizationRedirectResponseBuilder;
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ClientInformationAwaitTrait;
@@ -61,6 +62,20 @@ class Client
     public function createAuthorizeFormPostResponse(array $parameters = []): ResponseInterface
     {
         return (new AuthorizationFormResponseBuilder($this->container))
+            ->setClientInformation($this->clientInformation)
+            ->setProviderMetadata($this->providerMetadata)
+            ->build($this->generateAuthorizationParameters($parameters));
+    }
+
+    /**
+     * Create PSR-7 response with form post
+     *
+     * @param array $parameters
+     * @return ResponseInterface
+     */
+    public function createAuthorizeRedirectResponse(array $parameters = []): ResponseInterface
+    {
+        return (new AuthorizationRedirectResponseBuilder($this->container))
             ->setClientInformation($this->clientInformation)
             ->setProviderMetadata($this->providerMetadata)
             ->build($this->generateAuthorizationParameters($parameters));
