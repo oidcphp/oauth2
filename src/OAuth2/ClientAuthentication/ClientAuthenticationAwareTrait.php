@@ -7,7 +7,7 @@ trait ClientAuthenticationAwareTrait
     /**
      * @var ClientAuthentication|null
      */
-    private $clientAuthentication;
+    protected $clientAuthentication;
 
     /**
      * Default method for client authentication is ClientSecretBasic

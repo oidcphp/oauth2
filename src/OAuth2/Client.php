@@ -39,7 +39,7 @@ class Client
     /**
      * @var ContainerInterface
      */
-    private $container;
+    protected $container;
 
     /**
      * @var null|string
