@@ -4,11 +4,14 @@ declare(strict_types=1);
 
 namespace OpenIDConnect\OAuth2;
 
+use InvalidArgumentException;
 use OpenIDConnect\OAuth2\Builder\AuthorizationFormResponseBuilder;
 use OpenIDConnect\OAuth2\Builder\AuthorizationRedirectResponseBuilder;
 use OpenIDConnect\OAuth2\Builder\TokenRequestBuilder;
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
+use OpenIDConnect\OAuth2\Exceptions\OAuth2ClientException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
+use OpenIDConnect\OAuth2\Grant\AuthorizationCode;
 use OpenIDConnect\OAuth2\Grant\GrantType;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ClientInformationAwaitTrait;
@@ -94,6 +97,33 @@ class Client
     public function getState(): ?string
     {
         return $this->state;
+    }
+
+    /**
+     * @param array $parameters
+     * @param array $checks
+     * @return TokenSetInterface
+     */
+    public function handleCallback(array $parameters, array $checks = []): TokenSetInterface
+    {
+        if (!isset($parameters['code'])) {
+            throw new InvalidArgumentException("'code' missing from the response");
+        }
+
+        if (isset($parameters['state']) && !isset($checks['state'])) {
+            throw new InvalidArgumentException("'state' argument is missing");
+        }
+
+        if (!isset($parameters['state']) && isset($checks['state'])) {
+            throw new OAuth2ClientException("'state' missing from the response");
+        }
+
+        if (isset($parameters['state'], $checks['state']) && ($checks['state'] !== $parameters['state'])) {
+            $msg = "State mismatch, expected {$checks['state']}, got: {$parameters['state']}";
+            throw new OAuth2ClientException($msg);
+        }
+
+        return $this->sendTokenRequest(new AuthorizationCode(), $parameters, $checks);
     }
 
     /**

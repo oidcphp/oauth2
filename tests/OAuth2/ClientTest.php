@@ -4,7 +4,9 @@ namespace Tests\OAuth2;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use InvalidArgumentException;
 use OpenIDConnect\OAuth2\Client;
+use OpenIDConnect\OAuth2\Exceptions\OAuth2ClientException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
 use OpenIDConnect\OAuth2\Grant\AuthorizationCode;
 use OpenIDConnect\Support\Container\Container;
@@ -198,5 +200,145 @@ class ClientTest extends TestCase
             'code' => 'whatever',
             'redirect_uri' => 'whatever',
         ], []);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowInvalidArgumentExceptionWhenHandleCallbackWithParameterMissingCode(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer()
+        );
+
+        $target->handleCallback([]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowInvalidArgumentExceptionWhenHandleCallbackWithParameterGivenStateButChecksNotGiven(): void
+    {
+        $this->expectException(InvalidArgumentException::class);
+
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer([
+                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                    'access_token' => 'some-access-token',
+                ])),
+            ])
+        );
+
+        $target->handleCallback([
+            'code' => 'whatever',
+            'redirect_uri' => 'whatever',
+            'state' => 'whatever'
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowOAuth2ClientExceptionWhenHandleCallbackWithChecksGivenStateButParametersNotGiven(): void
+    {
+        $this->expectException(OAuth2ClientException::class);
+
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer([
+                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                    'access_token' => 'some-access-token',
+                ])),
+            ])
+        );
+
+        $target->handleCallback([
+            'code' => 'whatever',
+            'redirect_uri' => 'whatever',
+        ], [
+            'state' => 'whatever',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowOAuth2ClientExceptionWhenHandleCallbackWithBothGivenButNotSame(): void
+    {
+        $this->expectException(OAuth2ClientException::class);
+
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer([
+                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                    'access_token' => 'some-access-token',
+                ])),
+            ])
+        );
+
+        $target->handleCallback([
+            'code' => 'whatever',
+            'redirect_uri' => 'whatever',
+            'state' => 'foo',
+        ], [
+            'state' => 'bar',
+        ]);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnTokenWhenHandleCallbackWithStateIsNotGiven(): void
+    {
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer([
+                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                    'access_token' => 'some-access-token',
+                ])),
+            ])
+        );
+
+        $actual = $target->handleCallback([
+            'code' => 'whatever',
+            'redirect_uri' => 'whatever',
+        ]);
+
+        $this->assertSame('some-access-token', $actual->accessToken());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnTokenWhenHandleCallbackWithBothGivenAndSame(): void
+    {
+        $target = new Client(
+            $this->createProviderMetadata(),
+            $this->createClientInformation(),
+            $this->createContainer([
+                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                    'access_token' => 'some-access-token',
+                ])),
+            ])
+        );
+
+        $actual = $target->handleCallback([
+            'code' => 'whatever',
+            'redirect_uri' => 'whatever',
+            'state' => 'foo',
+        ], [
+            'state' => 'foo',
+        ]);
+
+        $this->assertSame('some-access-token', $actual->accessToken());
     }
 }
