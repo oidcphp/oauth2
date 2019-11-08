@@ -2,7 +2,6 @@
 
 namespace OpenIDConnect\OAuth2\Token;
 
-use DomainException;
 use OpenIDConnect\OAuth2\Traits\ParameterTrait;
 
 class TokenSet implements TokenSetInterface
@@ -31,14 +30,6 @@ class TokenSet implements TokenSetInterface
     public function expiresIn(): int
     {
         return $this->get('expires_in');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function jsonSerialize()
-    {
-        return $this->toArray();
     }
 
     /**

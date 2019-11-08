@@ -3,6 +3,7 @@
 namespace OpenIDConnect\OAuth2\Metadata;
 
 use JsonSerializable;
+use OpenIDConnect\OAuth2\Traits\ParameterTrait;
 
 /**
  * Client metadata
@@ -11,13 +12,13 @@ use JsonSerializable;
  */
 class ClientMetadata implements JsonSerializable
 {
-    use MetadataTraits;
+    use ParameterTrait;
 
     /**
      * @param array $metadata
      */
     public function __construct(array $metadata = [])
     {
-        $this->metadata = $metadata;
+        $this->parameters = $metadata;
     }
 }
