@@ -3,7 +3,6 @@
 namespace Tests;
 
 use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\ClientInterface;
 use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
@@ -14,8 +13,12 @@ use Http\Factory\Guzzle\StreamFactory;
 use Http\Factory\Guzzle\UriFactory;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
+use OpenIDConnect\OAuth2\Token\TokenFactory;
+use OpenIDConnect\OAuth2\Token\TokenFactoryInterface;
 use OpenIDConnect\Support\Container\Container;
+use OpenIDConnect\Support\Http\GuzzlePsr18Client;
 use Psr\Container\ContainerInterface;
+use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -65,16 +68,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
         return $handler;
     }
 
-    /**
-     * Creates HTTP client.
-     *
-     * @param ResponseInterface|ResponseInterface[] $responses
-     * @param array $history
-     * @return HttpClient
-     */
-    protected function createHttpClient($responses = [], &$history = []): HttpClient
+    protected function createHttpClient($responses = [], &$history = []): ClientInterface
     {
-        return new HttpClient($this->createHttpMockOption($responses, $history));
+        return new GuzzlePsr18Client(new HttpClient($this->createHttpMockOption($responses, $history)));
     }
 
     protected function createHttpJsonResponse(
@@ -124,7 +120,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function createContainer(array $instances = []): ContainerInterface
     {
         if (empty($instances[ClientInterface::class])) {
-            $instances[ClientInterface::class] = new HttpClient();
+            $instances[ClientInterface::class] = $this->createHttpClient();
         }
 
         if (empty($instances[StreamFactoryInterface::class])) {
@@ -141,6 +137,10 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         if (empty($instances[UriFactoryInterface::class])) {
             $instances[UriFactoryInterface::class] = new UriFactory();
+        }
+
+        if (empty($instances[TokenFactoryInterface::class])) {
+            $instances[TokenFactoryInterface::class] = new TokenFactory();
         }
 
         return new Container($instances);

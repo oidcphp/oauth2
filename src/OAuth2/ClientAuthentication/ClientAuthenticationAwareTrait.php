@@ -28,10 +28,10 @@ trait ClientAuthenticationAwareTrait
     }
 
     /**
-     * @param ClientAuthentication $clientAuthentication
+     * @param ClientAuthentication|null $clientAuthentication
      * @return static
      */
-    public function setClientAuthentication(ClientAuthentication $clientAuthentication)
+    public function setClientAuthentication(?ClientAuthentication $clientAuthentication)
     {
         $this->clientAuthentication = $clientAuthentication;
 
