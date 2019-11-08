@@ -17,7 +17,6 @@ class PasswordTest extends TestCase
         $actual = $target->prepareTokenRequestParameters([
             'username' => 'some-username',
             'password' => 'some-password',
-            'redirect_uri' => 'https://someredirect',
         ]);
 
         $this->assertSame('password', $actual['grant_type']);

@@ -9,15 +9,15 @@ namespace OpenIDConnect\OAuth2\Grant;
  */
 class RefreshToken extends GrantType
 {
-    public function grantType(): string
-    {
-        return 'refresh_token';
-    }
+    /**
+     * @var string
+     */
+    protected $grantType = 'refresh_token';
 
-    protected function requiredParameters(): array
-    {
-        return [
-            'refresh_token',
-        ];
-    }
+    /**
+     * @var array
+     */
+    protected $tokenRequestParameters = [
+        'refresh_token',
+    ];
 }

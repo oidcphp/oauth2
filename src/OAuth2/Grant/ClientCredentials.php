@@ -9,13 +9,8 @@ namespace OpenIDConnect\OAuth2\Grant;
  */
 class ClientCredentials extends GrantType
 {
-    public function grantType(): string
-    {
-        return 'client_credentials';
-    }
-
-    protected function requiredParameters(): array
-    {
-        return [];
-    }
+    /**
+     * @var string
+     */
+    protected $grantType = 'client_credentials';
 }

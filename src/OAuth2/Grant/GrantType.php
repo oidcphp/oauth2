@@ -12,48 +12,32 @@ use InvalidArgumentException;
 abstract class GrantType
 {
     /**
-     * Return grant type name.
-     *
-     * @return string
+     * @var string
      */
-    abstract public function grantType(): string;
+    protected $grantType;
 
     /**
-     * Returns a list of all required request parameters.
-     *
-     * @return array
+     * @var array
      */
-    abstract protected function requiredParameters(): array;
+    protected $tokenRequestParameters = [];
 
     /**
-     * Check the request parameters
-     *
-     * @param array $parameters
-     */
-    private function checkRequestParameters(array $parameters): void
-    {
-        $required = $this->requiredParameters();
-        $required[] = 'redirect_uri';
-
-        foreach ($required as $name) {
-            if (!isset($parameters[$name])) {
-                throw new InvalidArgumentException("Missing parameter '{$name}'");
-            }
-        }
-    }
-
-    /**
-     * Prepares an access token request's parameters.
+     * Prepares the parameters used on token endpoint
      *
      * @param array $parameters
      * @return array
      */
     public function prepareTokenRequestParameters(array $parameters): array
     {
-        $this->checkRequestParameters($parameters);
+        // Check the parameters is ready
+        foreach (array_merge($this->tokenRequestParameters) as $name) {
+            if (!isset($parameters[$name])) {
+                throw new InvalidArgumentException("Missing parameter '{$name}'");
+            }
+        }
 
         return array_merge([
-            'grant_type' => $this->grantType(),
+            'grant_type' => $this->grantType,
         ], $parameters);
     }
 }

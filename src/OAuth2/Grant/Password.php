@@ -9,16 +9,16 @@ namespace OpenIDConnect\OAuth2\Grant;
  */
 class Password extends GrantType
 {
-    public function grantType(): string
-    {
-        return 'password';
-    }
+    /**
+     * @var string
+     */
+    protected $grantType = 'password';
 
-    protected function requiredParameters(): array
-    {
-        return [
-            'username',
-            'password',
-        ];
-    }
+    /**
+     * @var array
+     */
+    protected $tokenRequestParameters = [
+        'username',
+        'password',
+    ];
 }

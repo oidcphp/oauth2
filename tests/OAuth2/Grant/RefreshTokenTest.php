@@ -16,7 +16,6 @@ class RefreshTokenTest extends TestCase
 
         $actual = $target->prepareTokenRequestParameters([
             'refresh_token' => 'some',
-            'redirect_uri' => 'https://someredirect',
         ]);
 
         $this->assertSame('refresh_token', $actual['grant_type']);

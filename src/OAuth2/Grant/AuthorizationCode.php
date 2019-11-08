@@ -9,15 +9,16 @@ namespace OpenIDConnect\OAuth2\Grant;
  */
 class AuthorizationCode extends GrantType
 {
-    public function grantType(): string
-    {
-        return 'authorization_code';
-    }
+    /**
+     * @var string
+     */
+    protected $grantType = 'authorization_code';
 
-    protected function requiredParameters(): array
-    {
-        return [
-            'code',
-        ];
-    }
+    /**
+     * @var array
+     */
+    protected $tokenRequestParameters = [
+        'code',
+        'redirect_uri',
+    ];
 }

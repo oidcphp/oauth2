@@ -14,9 +14,7 @@ class ClientCredentialsTest extends TestCase
     {
         $target = new ClientCredentials();
 
-        $actual = $target->prepareTokenRequestParameters([
-            'redirect_uri' => 'https://someredirect',
-        ]);
+        $actual = $target->prepareTokenRequestParameters([]);
 
         $this->assertSame('client_credentials', $actual['grant_type']);
     }
