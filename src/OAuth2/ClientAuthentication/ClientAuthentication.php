@@ -4,8 +4,6 @@ declare(strict_types=1);
 
 namespace OpenIDConnect\OAuth2\ClientAuthentication;
 
-use LogicException;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 
 interface ClientAuthentication

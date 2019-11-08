@@ -2,7 +2,6 @@
 
 namespace Tests\OAuth2\Builder;
 
-use OpenIDConnect\OAuth2\Builder\AuthorizationFormResponseBuilder;
 use OpenIDConnect\OAuth2\Builder\AuthorizationRedirectResponseBuilder;
 use Tests\TestCase;
 
