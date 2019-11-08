@@ -23,6 +23,15 @@ interface TokenSetInterface extends JsonSerializable
     public function expiresIn(): ?int;
 
     /**
+     * Returns additional vendor values stored in the token.
+     *
+     * @param string $key Given null will get all value
+     * @param mixed $default Return default when the key is not found
+     * @return mixed
+     */
+    public function get(string $key, $default = null);
+
+    /**
      * @param string $key
      * @return bool
      */
@@ -48,13 +57,4 @@ interface TokenSetInterface extends JsonSerializable
      * @return array|null
      */
     public function scope(): ?array;
-
-    /**
-     * Returns additional vendor values stored in the token.
-     *
-     * @param string $key Given null will get all value
-     * @param mixed $default Return default when the key is not found
-     * @return mixed
-     */
-    public function value(string $key, $default = null);
 }

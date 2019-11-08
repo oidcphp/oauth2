@@ -3,13 +3,11 @@
 namespace OpenIDConnect\OAuth2\Token;
 
 use DomainException;
+use OpenIDConnect\OAuth2\Traits\ParameterTrait;
 
 class TokenSet implements TokenSetInterface
 {
-    /**
-     * @var array
-     */
-    private $parameters;
+    use ParameterTrait;
 
     /**
      * @param array $parameters An array from token endpoint response body
@@ -32,15 +30,7 @@ class TokenSet implements TokenSetInterface
      */
     public function expiresIn(): int
     {
-        return $this->value('expires_in');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has(string $key): bool
-    {
-        return isset($this->parameters[$key]);
+        return $this->get('expires_in');
     }
 
     /**
@@ -48,7 +38,7 @@ class TokenSet implements TokenSetInterface
      */
     public function jsonSerialize()
     {
-        return $this->parameters;
+        return $this->toArray();
     }
 
     /**
@@ -56,19 +46,7 @@ class TokenSet implements TokenSetInterface
      */
     public function refreshToken(): ?string
     {
-        return $this->value('refresh_token');
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function require(string $key)
-    {
-        if ($this->has($key)) {
-            return $this->parameters[$key];
-        }
-
-        throw new DomainException("Missing key in TokenSet parameter '{$key}'");
+        return $this->get('refresh_token');
     }
 
     /**
@@ -85,13 +63,5 @@ class TokenSet implements TokenSetInterface
         }
 
         return explode(' ', $this->parameters['scope']);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function value(string $key, $default = null)
-    {
-        return $this->parameters[$key] ?? $default;
     }
 }

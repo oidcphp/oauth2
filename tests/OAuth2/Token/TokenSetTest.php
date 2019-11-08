@@ -33,7 +33,7 @@ class TokenSetTest extends TestCase
         $this->assertSame('some-refresh-token', $target->refreshToken());
         $this->assertSame(['some-scope'], $target->scope());
 
-        $this->assertSame('whatever', $target->value('custom'));
+        $this->assertSame('whatever', $target->get('custom'));
     }
 
     /**
