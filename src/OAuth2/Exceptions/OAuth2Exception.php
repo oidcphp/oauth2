@@ -1,9 +1,7 @@
-<?php
+<?php declare(strict_types=1);
 
 namespace OpenIDConnect\OAuth2\Exceptions;
 
-use Throwable;
-
-interface OAuth2Exception extends Throwable
+interface OAuth2Exception extends \Throwable
 {
 }

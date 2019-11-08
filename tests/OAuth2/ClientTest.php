@@ -221,7 +221,7 @@ class ClientTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowInvalidArgumentExceptionWhenHandleCallbackWithParameterGivenStateButChecksNotGiven(): void
+    public function shouldThrowInvalidArgumentExceptionWhenHandleCallbackWithParameterGivenStateButChecksNot(): void
     {
         $this->expectException(InvalidArgumentException::class);
 
@@ -238,14 +238,14 @@ class ClientTest extends TestCase
         $target->handleCallback([
             'code' => 'whatever',
             'redirect_uri' => 'whatever',
-            'state' => 'whatever'
+            'state' => 'whatever',
         ]);
     }
 
     /**
      * @test
      */
-    public function shouldThrowOAuth2ClientExceptionWhenHandleCallbackWithChecksGivenStateButParametersNotGiven(): void
+    public function shouldThrowOAuth2ClientExceptionWhenHandleCallbackWithChecksGivenStateButParametersNot(): void
     {
         $this->expectException(OAuth2ClientException::class);
 
