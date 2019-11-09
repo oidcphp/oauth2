@@ -5,6 +5,8 @@ namespace OpenIDConnect\OAuth2\Metadata;
 /**
  * Client information
  *
+ * @method string redirectUri() Default redirect URI
+ *
  * @see https://tools.ietf.org/html/rfc7591#section-3.2.1
  */
 class ClientInformation extends ClientMetadata
@@ -49,15 +51,5 @@ class ClientInformation extends ClientMetadata
     public function expiresAt(): ?int
     {
         return $this->get('client_secret_expires_at');
-    }
-
-    /**
-     * Default redirect URI
-     *
-     * @return string|null
-     */
-    public function redirectUri(): ?string
-    {
-        return $this->get('redirect_uri');
     }
 }

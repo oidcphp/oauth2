@@ -2,6 +2,7 @@
 
 namespace Tests\OAuth2\Traits;
 
+use BadMethodCallException;
 use DomainException;
 use OpenIDConnect\OAuth2\Traits\ParameterTrait;
 use Tests\TestCase;
@@ -93,5 +94,47 @@ class ParameterTraitTest extends TestCase
         $actual = $target->with('foo', 'bar');
 
         $actual->assertHasKeys(['foo', 'not-exist']);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnValueWhenUsingMagicCall(): void
+    {
+        /** @var ParameterTrait $target */
+        $target = $this->getMockForTrait(ParameterTrait::class);
+
+        $actual = $target->with('foo', 'bar');
+
+        $this->assertSame('bar', $actual->foo());
+
+        // Run again will save to cache
+        $this->assertSame('bar', $actual->foo());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnValueWhenUsingMagicCallWithCamelCase(): void
+    {
+        /** @var ParameterTrait $target */
+        $target = $this->getMockForTrait(ParameterTrait::class);
+
+        $actual = $target->with('camel_case', 'bar');
+
+        $this->assertSame('bar', $actual->camelCase());
+    }
+
+    /**
+     * @test
+     */
+    public function shouldThrowBadMethodCallExceptionWhenNoParameter(): void
+    {
+        $this->expectException(BadMethodCallException::class);
+
+        /** @var ParameterTrait $target */
+        $target = $this->getMockForTrait(ParameterTrait::class);
+
+        $target->notExist();
     }
 }

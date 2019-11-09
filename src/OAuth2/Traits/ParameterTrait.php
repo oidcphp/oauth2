@@ -2,14 +2,52 @@
 
 namespace OpenIDConnect\OAuth2\Traits;
 
+use BadMethodCallException;
 use DomainException;
 
 trait ParameterTrait
 {
+    protected static $snakeCache = [];
+
     /**
      * @var array
      */
     protected $parameters;
+
+    /**
+     * Convert a string to snake case
+     *
+     * @see https://github.com/laravel/framework/blob/v6.5.0/src/Illuminate/Support/Str.php#L525-L540
+     * @param string $str
+     * @return string
+     */
+    protected static function snake(string $str): string
+    {
+        $key = $str;
+
+        if (isset(static::$snakeCache[$key])) {
+            return static::$snakeCache[$key];
+        }
+
+        if (!ctype_lower($key)) {
+            $key = (string)preg_replace('/\s+/u', '', ucwords($key));
+            $key = (string)preg_replace('/(.)(?=[A-Z])/u', '$1' . '_', $key);
+            $key = mb_strtolower($key, 'UTF-8');
+        }
+
+        return static::$snakeCache[$key] = $key;
+    }
+
+    public function __call($name, $arguments)
+    {
+        $key = static::snake($name);
+
+        if ($this->has($key)) {
+            return $this->get($key);
+        }
+
+        throw new BadMethodCallException("Undefined method '{$name}'");
+    }
 
     /**
      * @param string $key
