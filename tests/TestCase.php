@@ -96,8 +96,9 @@ class TestCase extends \PHPUnit\Framework\TestCase
     protected function createProviderMetadataConfig($overwrite = []): array
     {
         return array_merge([
-            'token_endpoint' => 'https://somewhere/token',
             'authorization_endpoint' => 'https://somewhere/authorization',
+            'token_endpoint' => 'https://somewhere/token',
+            'userinfo_endpoint' => 'https://somewhere/userinfo',
         ], $overwrite);
     }
 
