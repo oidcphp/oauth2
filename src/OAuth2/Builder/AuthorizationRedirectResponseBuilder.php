@@ -29,7 +29,7 @@ class AuthorizationRedirectResponseBuilder
         /** @var UriFactoryInterface $uriFactory */
         $uriFactory = $this->container->get(UriFactoryInterface::class);
 
-        return $uriFactory->createUri($this->providerMetadata->authorizationEndpoint())
+        return $uriFactory->createUri($this->providerMetadata->require('authorization_endpoint'))
             ->withQuery(Query::build($parameters));
     }
 }

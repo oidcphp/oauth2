@@ -29,7 +29,7 @@ class TokenRequestBuilder
         /** @var StreamFactoryInterface $streamFactory */
         $streamFactory = $this->container->get(StreamFactoryInterface::class);
 
-        $request = $requestFactory->createRequest('POST', $this->providerMetadata->tokenEndpoint())
+        $request = $requestFactory->createRequest('POST', $this->providerMetadata->require('token_endpoint'))
             ->withHeader('content-type', 'application/x-www-form-urlencoded')
             ->withBody($streamFactory->createStream(Query::build($parameters)));
 

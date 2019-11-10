@@ -28,10 +28,7 @@ class AuthorizationFormResponseBuilder
      */
     private function generateForm(array $parameters): string
     {
-        return $this->generateHtml(
-            $this->providerMetadata->authorizationEndpoint(),
-            $parameters
-        );
+        return $this->generateHtml($this->providerMetadata->require('authorization_endpoint'), $parameters);
     }
 
     /**
