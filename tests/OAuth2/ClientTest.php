@@ -341,24 +341,4 @@ class ClientTest extends TestCase
 
         $this->assertSame('some-access-token', $actual->accessToken());
     }
-
-    /**
-     * @test
-     */
-    public function shouldReturnUserInfoWhenSendRequest(): void
-    {
-        $target = new Client(
-            $this->createProviderMetadata(),
-            $this->createClientInformation(),
-            $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createHttpJsonResponse([
-                    'what' => 'ever',
-                ])),
-            ])
-        );
-
-        $actual = $target->sendUserInfoRequest('some-access-token');
-
-        $this->assertSame(['what' => 'ever'], $actual);
-    }
 }

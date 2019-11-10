@@ -6,7 +6,6 @@ use InvalidArgumentException;
 use OpenIDConnect\OAuth2\Builder\AuthorizationFormResponseBuilder;
 use OpenIDConnect\OAuth2\Builder\AuthorizationRedirectResponseBuilder;
 use OpenIDConnect\OAuth2\Builder\TokenRequestBuilder;
-use OpenIDConnect\OAuth2\Builder\UserInfoRequestBuilder;
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ClientException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
@@ -157,25 +156,6 @@ class Client
         $tokenFactory = $this->container->get(TokenFactoryInterface::class);
 
         return $tokenFactory->create(array_merge($checks, $parsed));
-    }
-
-    /**
-     * @param string $accessToken
-     * @return array
-     */
-    public function sendUserInfoRequest(string $accessToken)
-    {
-        /** @var ClientInterface $httpClient */
-        $httpClient = $this->container->get(ClientInterface::class);
-
-        $request = (new UserInfoRequestBuilder($this->container))
-            ->setProviderMetadata($this->providerMetadata)
-            ->setClientInformation($this->clientInformation)
-            ->build($accessToken);
-
-        $response = $httpClient->sendRequest($request);
-
-        return json_decode((string)$response->getBody(), true);
     }
 
     /**
