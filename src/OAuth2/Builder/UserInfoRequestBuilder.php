@@ -3,13 +3,9 @@
 namespace OpenIDConnect\OAuth2\Builder;
 
 use BadMethodCallException;
-use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
-use OpenIDConnect\OAuth2\Grant\GrantType;
-use OpenIDConnect\Support\Http\Query;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\StreamFactoryInterface;
 
 /**
  * Generate Request for userinfo endpoint
