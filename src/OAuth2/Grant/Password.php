@@ -17,7 +17,7 @@ class Password extends GrantType
     /**
      * @var array
      */
-    protected $tokenRequestParameters = [
+    protected $tokenRequireParameters = [
         'username',
         'password',
     ];

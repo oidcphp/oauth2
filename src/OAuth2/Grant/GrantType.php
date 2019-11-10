@@ -19,7 +19,7 @@ abstract class GrantType
     /**
      * @var array
      */
-    protected $tokenRequestParameters = [];
+    protected $tokenRequireParameters = [];
 
     /**
      * Prepares the parameters used on token endpoint
@@ -30,7 +30,7 @@ abstract class GrantType
     public function prepareTokenRequestParameters(array $parameters): array
     {
         // Check the parameters is ready
-        foreach (array_merge($this->tokenRequestParameters) as $name) {
+        foreach (array_merge($this->tokenRequireParameters) as $name) {
             if (!isset($parameters[$name])) {
                 throw new InvalidArgumentException("Missing parameter '{$name}'");
             }

@@ -17,7 +17,7 @@ class RefreshToken extends GrantType
     /**
      * @var array
      */
-    protected $tokenRequestParameters = [
+    protected $tokenRequireParameters = [
         'refresh_token',
     ];
 }

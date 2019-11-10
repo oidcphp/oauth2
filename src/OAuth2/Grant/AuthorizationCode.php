@@ -17,7 +17,7 @@ class AuthorizationCode extends GrantType
     /**
      * @var array
      */
-    protected $tokenRequestParameters = [
+    protected $tokenRequireParameters = [
         'code',
         'redirect_uri',
     ];
