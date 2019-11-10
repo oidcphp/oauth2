@@ -8,6 +8,16 @@
 
 The library for OAuth 2.0 Authorization Framework.
 
+## Implemented specs
+
+* [RFC 6749 - The OAuth 2.0 Authorization Framework][spec-rfc6749]
+* [RFC 7591 - OAuth 2.0 Dynamic Client Registration Protocol][spec-rfc7591]
+* [RFC 8414 - OAuth 2.0 Authorization Server Metadata][spec-rfc8414]
+
+[spec-rfc6749]: https://tools.ietf.org/html/rfc6749
+[spec-rfc7591]: https://tools.ietf.org/html/rfc7591
+[spec-rfc8414]: https://tools.ietf.org/html/rfc8414
+
 [license-svg]: https://img.shields.io/badge/license-MIT-brightgreen.svg
 [license-link]: https://github.com/oidcphp/oauth2/blob/master/LICENSE
 [travis-svg]: https://travis-ci.com/oidcphp/oauth2.svg?branch=master
