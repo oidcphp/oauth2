@@ -12,7 +12,7 @@ trait ParameterTrait
     /**
      * @var array
      */
-    protected $parameters;
+    protected $parameters = [];
 
     /**
      * Convert a string to snake case
@@ -50,9 +50,20 @@ trait ParameterTrait
     }
 
     /**
-     * @param string $key
+     * @param mixed $item
+     * @return static
      */
-    public function assertHasKey(string $key): void
+    public function append($item)
+    {
+        $this->parameters[] = $item;
+
+        return $this;
+    }
+
+    /**
+     * @param string|int $key
+     */
+    public function assertHasKey($key): void
     {
         if (!$this->has($key)) {
             throw new DomainException("Missing parameter key: '{$key}'");
@@ -70,20 +81,20 @@ trait ParameterTrait
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @param mixed|null $default
      * @return mixed
      */
-    public function get(string $key, $default = null)
+    public function get($key, $default = null)
     {
         return $this->parameters[$key] ?? $default;
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @return bool
      */
-    public function has(string $key): bool
+    public function has($key): bool
     {
         return isset($this->parameters[$key]);
     }
@@ -97,11 +108,11 @@ trait ParameterTrait
     }
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @return mixed
      * @throws DomainException
      */
-    public function require(string $key)
+    public function require($key)
     {
         $this->assertHasKey($key);
 
@@ -119,11 +130,11 @@ trait ParameterTrait
     /**
      * Return a clone object with new value
      *
-     * @param string $key
+     * @param string|int $key
      * @param mixed $value
      * @return static
      */
-    public function with(string $key, $value)
+    public function with($key, $value)
     {
         $clone = clone $this;
         $clone->parameters[$key] = $value;

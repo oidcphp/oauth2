@@ -12,6 +12,27 @@ class ParameterTraitTest extends TestCase
     /**
      * @test
      */
+    public function shouldReturnCorrectValueWhenCallAppend(): void
+    {
+        /** @var ParameterTrait $target */
+        $target = $this->getMockForTrait(ParameterTrait::class);
+
+        $actual = $target->append('value')
+            ->append('value')
+            ->append('value');
+
+        $this->assertTrue($actual->has(0));
+        $this->assertTrue($actual->has(1));
+        $this->assertTrue($actual->has(2));
+
+        $this->assertSame('value', $actual->get(0));
+        $this->assertSame('value', $actual->get(1));
+        $this->assertSame('value', $actual->get(2));
+    }
+
+    /**
+     * @test
+     */
     public function shouldReturnCorrectValueWhenCallHas(): void
     {
         /** @var ParameterTrait $target */

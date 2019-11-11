@@ -25,17 +25,17 @@ interface TokenSetInterface extends JsonSerializable
     /**
      * Returns additional vendor values stored in the token.
      *
-     * @param string $key Given null will get all value
+     * @param string|int $key Given null will get all value
      * @param mixed $default Return default when the key is not found
      * @return mixed
      */
-    public function get(string $key, $default = null);
+    public function get($key, $default = null);
 
     /**
-     * @param string $key
+     * @param string|int $key
      * @return bool
      */
-    public function has(string $key): bool;
+    public function has($key): bool;
 
     /**
      * @see https://tools.ietf.org/html/rfc6749#section-1.5
@@ -46,11 +46,11 @@ interface TokenSetInterface extends JsonSerializable
     /**
      * Require key and return the value
      *
-     * @param string $key Given null will get all value
+     * @param string|int $key Given null will get all value
      * @return mixed
      * @throws DomainException Throw when the key is not exist
      */
-    public function require(string $key);
+    public function require($key);
 
     /**
      * @see https://tools.ietf.org/html/rfc6749#section-5.1
