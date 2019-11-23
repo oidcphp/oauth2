@@ -2,6 +2,8 @@
 
 namespace OpenIDConnect\OAuth2\Builder;
 
+use DomainException;
+use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -28,25 +30,29 @@ class AuthorizationFormResponseBuilder
      */
     private function generateForm(array $parameters): string
     {
-        return $this->generateHtml($this->providerMetadata->require('authorization_endpoint'), $parameters);
+        try {
+            return $this->generateHtml($this->providerMetadata->require('authorization_endpoint'), $parameters);
+        } catch (DomainException $e) {
+            throw new OAuth2ServerException('Provider does not support authorization_endpoint');
+        }
     }
 
     /**
-     * @param string $baseAuthorizationUrl
+     * @param string $url
      * @param array $parameters
      * @return string
      */
-    private function generateHtml(string $baseAuthorizationUrl, array $parameters): string
+    private function generateHtml(string $url, array $parameters): string
     {
         $formInput = implode('', array_map(function ($v, $k) {
-            return "<input type=\"hidden\" name=\"${k}\" value=\"${v}\"/>";
+            return "<input type=\"hidden\" name=\"{$k}\" value=\"{$v}\"/>";
         }, $parameters, array_keys($parameters)));
 
         return <<< HTML
 <!DOCTYPE html>
 <head><title>Requesting Authorization</title></head>
 <body onload="javascript:document.forms[0].submit()">
-<form method="post" action="{$baseAuthorizationUrl}">{$formInput}</form>
+<form method="post" action="{$url}">{$formInput}</form>
 </body>
 </html>
 HTML;
