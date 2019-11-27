@@ -20,22 +20,6 @@ class ClientTest extends TestCase
     /**
      * @test
      */
-    public function shouldThrowExceptionWhenContainerIsMissingDefinedClass(): void
-    {
-        $this->expectException(EntryNotFoundException::class);
-
-        new Client(
-            $this->createProviderMetadata(),
-            $this->createClientInformation([
-                'redirect_uri' => 'https://someredirect',
-            ]),
-            new Container()
-        );
-    }
-
-    /**
-     * @test
-     */
     public function shouldReturnPreparedStateWhenInitParameters(): void
     {
         $target = new Client(

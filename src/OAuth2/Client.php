@@ -17,15 +17,10 @@ use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadataAwaitTrait;
 use OpenIDConnect\OAuth2\Token\TokenFactoryInterface;
 use OpenIDConnect\OAuth2\Token\TokenSetInterface;
-use OpenIDConnect\Support\Container\EntryNotFoundException;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
-use Psr\Http\Message\RequestFactoryInterface;
-use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\StreamFactoryInterface;
-use Psr\Http\Message\UriFactoryInterface;
 
 /**
  * OpenID Connect Client
@@ -164,21 +159,6 @@ class Client
      */
     public function setContainer(ContainerInterface $container): Client
     {
-        $entries = [
-            ClientInterface::class,
-            StreamFactoryInterface::class,
-            ResponseFactoryInterface::class,
-            RequestFactoryInterface::class,
-            UriFactoryInterface::class,
-            TokenFactoryInterface::class,
-        ];
-
-        foreach ($entries as $entry) {
-            if (!$container->has($entry)) {
-                throw new EntryNotFoundException("The entry '$entry' is not found");
-            }
-        }
-
         $this->container = $container;
 
         return $this;
