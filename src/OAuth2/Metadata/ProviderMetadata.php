@@ -38,10 +38,41 @@ class ProviderMetadata implements JsonSerializable
     use ParameterTrait;
 
     /**
-     * @param array $metadata
+     * @var JwkSet
      */
-    public function __construct(array $metadata)
+    private $jwkSet;
+
+    /**
+     * @param array $metadata
+     * @param JwkSet|null $jwkSet
+     */
+    public function __construct(array $metadata, ?JwkSet $jwkSet = null)
     {
         $this->parameters = $metadata;
+
+        if (null === $jwkSet) {
+            $jwkSet = new JwkSet();
+        }
+
+        $this->jwkSet = $jwkSet;
+    }
+
+    /**
+     * @param array $jwk JWK array
+     * @return ProviderMetadata
+     */
+    public function addJwk($jwk): ProviderMetadata
+    {
+        $this->jwkSet->add($jwk);
+
+        return $this;
+    }
+
+    /**
+     * @return JwkSet
+     */
+    public function jwkSet(): JwkSet
+    {
+        return $this->jwkSet;
     }
 }
