@@ -44,8 +44,8 @@ class AuthorizationFormResponseBuilder
      */
     private function generateHtml(string $url, array $parameters): string
     {
-        $formInput = implode('', array_map(function ($v, $k) {
-            return "<input type=\"hidden\" name=\"{$k}\" value=\"{$v}\"/>";
+        $formInput = implode('', array_map(function ($value, $key) {
+            return "<input type=\"hidden\" name=\"{$key}\" value=\"{$value}\"/>";
         }, $parameters, array_keys($parameters)));
 
         return <<< HTML
