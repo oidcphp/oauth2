@@ -27,7 +27,7 @@ class TokenSet implements TokenSetInterface
     /**
      * @inheritDoc
      */
-    public function expiresIn(): int
+    public function expiresIn(): ?int
     {
         return $this->get('expires_in');
     }
