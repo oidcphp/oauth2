@@ -4,7 +4,6 @@
 [![Build Status][travis-svg]][travis-link]
 [![Coverage Status][coverage-svg]][coverage-link]
 [![Codacy Badge][codacy-svg]][codacy-link]
-[![Scrutinizer Code Quality][scrutinizer-svg]][scrutinizer-link]
 [![Latest Stable Version][latest-stable-svg]][packagist-link]
 [![Total Downloads][total-download-svg]][packagist-link]
 
@@ -18,8 +17,6 @@ The library for OAuth 2.0 Authorization Framework.
 [coverage-link]: https://codecov.io/gh/oidcphp/oauth2
 [codacy-svg]: https://api.codacy.com/project/badge/Grade/ff4ce46850684b6b8455ccfbc1c0932b
 [codacy-link]: https://www.codacy.com/manual/oidcphp/oauth2
-[scrutinizer-svg]: https://scrutinizer-ci.com/g/oidcphp/oauth2/badges/quality-score.png?b=master
-[scrutinizer-link]: https://scrutinizer-ci.com/g/oidcphp/oauth2/?branch=master
 [latest-stable-svg]: https://poser.pugx.org/oidc/oauth2/v/stable
 [total-download-svg]: https://poser.pugx.org/oidc/oauth2/d/total.svg
 [packagist-link]: https://packagist.org/packages/oidc/oauth2
