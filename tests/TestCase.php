@@ -7,16 +7,13 @@ use GuzzleHttp\Handler\MockHandler;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Middleware;
 use GuzzleHttp\Psr7\Response as HttpResponse;
-use Http\Factory\Guzzle\RequestFactory;
-use Http\Factory\Guzzle\ResponseFactory;
-use Http\Factory\Guzzle\StreamFactory;
-use Http\Factory\Guzzle\UriFactory;
+use Http\Adapter\Guzzle6\Client as Psr18Client;
+use Illuminate\Container\Container;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
 use OpenIDConnect\OAuth2\Token\TokenFactory;
 use OpenIDConnect\OAuth2\Token\TokenFactoryInterface;
-use OpenIDConnect\Support\Container\Container;
-use OpenIDConnect\Support\Http\GuzzlePsr18Client;
+use OpenIDConnect\Support\Laravel\HttpFactoryServiceProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
@@ -71,7 +68,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createHttpClient($responses = [], &$history = []): ClientInterface
     {
-        return new GuzzlePsr18Client(new HttpClient($this->createHttpMockOption($responses, $history)));
+        return new Psr18Client(new HttpClient($this->createHttpMockOption($responses, $history)));
     }
 
     protected function createHttpJsonResponse(
@@ -121,30 +118,42 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createContainer(array $instances = []): ContainerInterface
     {
-        if (empty($instances[ClientInterface::class])) {
-            $instances[ClientInterface::class] = $this->createHttpClient();
+        $container = new Container();
+
+        $container->singleton(ClientInterface::class, function () use ($instances) {
+            if (empty($instances[ClientInterface::class])) {
+                return $this->createHttpClient();
+            }
+
+            return $instances[ClientInterface::class];
+        });
+
+        $container->singleton(TokenFactoryInterface::class, function () use ($instances) {
+            if (empty($instances[TokenFactoryInterface::class])) {
+                return new TokenFactory();
+            }
+
+            return $instances[TokenFactoryInterface::class];
+        });
+
+        (new HttpFactoryServiceProvider($container))->register();
+
+        if (isset($instances[StreamFactoryInterface::class])) {
+            $container->instance(StreamFactoryInterface::class, $instances[StreamFactoryInterface::class]);
         }
 
-        if (empty($instances[StreamFactoryInterface::class])) {
-            $instances[StreamFactoryInterface::class] = new StreamFactory();
+        if (isset($instances[ResponseFactoryInterface::class])) {
+            $container->instance(ResponseFactoryInterface::class, $instances[ResponseFactoryInterface::class]);
         }
 
-        if (empty($instances[ResponseFactoryInterface::class])) {
-            $instances[ResponseFactoryInterface::class] = new ResponseFactory();
+        if (isset($instances[RequestFactoryInterface::class])) {
+            $container->instance(RequestFactoryInterface::class, $instances[RequestFactoryInterface::class]);
         }
 
-        if (empty($instances[RequestFactoryInterface::class])) {
-            $instances[RequestFactoryInterface::class] = new RequestFactory();
+        if (isset($instances[UriFactoryInterface::class])) {
+            $container->instance(UriFactoryInterface::class, $instances[UriFactoryInterface::class]);
         }
 
-        if (empty($instances[UriFactoryInterface::class])) {
-            $instances[UriFactoryInterface::class] = new UriFactory();
-        }
-
-        if (empty($instances[TokenFactoryInterface::class])) {
-            $instances[TokenFactoryInterface::class] = new TokenFactory();
-        }
-
-        return new Container($instances);
+        return $container;
     }
 }

@@ -4,14 +4,12 @@ namespace Tests\OAuth2;
 
 use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
+use Http\Client\Exception\NetworkException;
 use InvalidArgumentException;
 use OpenIDConnect\OAuth2\Client;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ClientException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
 use OpenIDConnect\OAuth2\Grant\AuthorizationCode;
-use OpenIDConnect\Support\Container\Container;
-use OpenIDConnect\Support\Container\EntryNotFoundException;
-use OpenIDConnect\Support\Http\Exception\NetworkException;
 use Psr\Http\Client\ClientInterface;
 use Tests\TestCase;
 
@@ -125,7 +123,7 @@ class ClientTest extends TestCase
             ]),
             $this->createContainer([
                 ClientInterface::class => $this->createHttpClient([
-                    new NetworkException(new Request('GET', 'whatever'), 'whatever'),
+                    new NetworkException('whatever', new Request('GET', 'whatever')),
                 ]),
             ])
         );
