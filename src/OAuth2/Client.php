@@ -61,7 +61,7 @@ class Client
     /**
      * Create PSR-7 response with form post
      *
-     * @param array $parameters
+     * @param array<mixed> $parameters
      * @return ResponseInterface
      */
     public function createAuthorizeFormPostResponse(array $parameters = []): ResponseInterface
@@ -75,7 +75,7 @@ class Client
     /**
      * Create PSR-7 redirect response
      *
-     * @param array $parameters
+     * @param array<mixed> $parameters
      * @return ResponseInterface
      */
     public function createAuthorizeRedirectResponse(array $parameters = []): ResponseInterface
@@ -95,8 +95,8 @@ class Client
     }
 
     /**
-     * @param array $parameters
-     * @param array $checks
+     * @param array<mixed> $parameters
+     * @param array<mixed> $checks
      * @return TokenSetInterface
      */
     public function handleCallback(array $parameters, array $checks = []): TokenSetInterface
@@ -123,8 +123,8 @@ class Client
 
     /**
      * @param GrantType $grant
-     * @param array $parameters
-     * @param array $checks
+     * @param array<mixed> $parameters
+     * @param array<mixed> $checks
      * @return TokenSetInterface
      */
     public function sendTokenRequest(GrantType $grant, array $parameters = [], array $checks = []): TokenSetInterface
@@ -169,7 +169,7 @@ class Client
     /**
      * Initial the authorization parameters
      *
-     * @param array $options
+     * @param array<mixed> $options
      */
     public function initAuthorizationParameters(array $options = []): void
     {
@@ -194,8 +194,8 @@ class Client
     }
 
     /**
-     * @param array $parameters
-     * @return array
+     * @param array<mixed> $parameters
+     * @return array<mixed>
      */
     private function generateAuthorizationParameters(array $parameters): array
     {
@@ -228,7 +228,7 @@ class Client
      * Parse response from token endpoint
      *
      * @param ResponseInterface $response
-     * @return array
+     * @return array<mixed>
      */
     private function parseTokenResponse(ResponseInterface $response): array
     {

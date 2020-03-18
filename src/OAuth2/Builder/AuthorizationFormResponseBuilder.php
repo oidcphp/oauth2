@@ -14,6 +14,10 @@ class AuthorizationFormResponseBuilder
 {
     use BuilderTrait;
 
+    /**
+     * @param array<mixed> $parameters
+     * @return ResponseInterface
+     */
     public function build(array $parameters): ResponseInterface
     {
         /** @var ResponseFactoryInterface $responseFactory */
@@ -27,7 +31,7 @@ class AuthorizationFormResponseBuilder
     }
 
     /**
-     * @param array $parameters
+     * @param array<mixed> $parameters
      * @return string
      */
     private function generateForm(array $parameters): string
@@ -41,7 +45,7 @@ class AuthorizationFormResponseBuilder
 
     /**
      * @param string $url
-     * @param array $parameters
+     * @param array<mixed> $parameters
      * @return string
      */
     private function generateHtml(string $url, array $parameters): string

@@ -11,7 +11,7 @@ class TokenSet implements TokenSetInterface
     use ParameterTrait;
 
     /**
-     * @param array $parameters An array from token endpoint response body
+     * @param array<mixed> $parameters An array from token endpoint response body
      */
     public function __construct(array $parameters)
     {

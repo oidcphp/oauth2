@@ -45,7 +45,7 @@ class ProviderMetadata implements JsonSerializable
     private $jwkSet;
 
     /**
-     * @param array $metadata
+     * @param array<mixed> $metadata
      * @param JwkSet|null $jwkSet
      */
     public function __construct(array $metadata, ?JwkSet $jwkSet = null)
@@ -60,7 +60,7 @@ class ProviderMetadata implements JsonSerializable
     }
 
     /**
-     * @param array $jwk JWK array
+     * @param array<mixed> $jwk JWK array
      * @return ProviderMetadata
      */
     public function addJwk($jwk): ProviderMetadata

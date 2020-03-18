@@ -21,6 +21,11 @@ class TokenRequestBuilder
     use BuilderTrait;
     use ClientAuthenticationAwareTrait;
 
+    /**
+     * @param GrantType $grantType
+     * @param array<mixed> $parameters
+     * @return RequestInterface
+     */
     public function build(GrantType $grantType, array $parameters): RequestInterface
     {
         $parameters = $grantType->prepareTokenRequestParameters($parameters);

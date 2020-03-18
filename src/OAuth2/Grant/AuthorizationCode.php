@@ -17,7 +17,7 @@ class AuthorizationCode extends GrantType
     protected $grantType = 'authorization_code';
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $requiredParameters = [
         'code',

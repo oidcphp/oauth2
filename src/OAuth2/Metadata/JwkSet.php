@@ -16,12 +16,12 @@ use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
 class JwkSet implements JsonSerializable
 {
     /**
-     * @var array
+     * @var array<mixed>
      */
     private $keys = [];
 
     /**
-     * @param array $jwkSet
+     * @param array<mixed> $jwkSet
      */
     public function __construct(array $jwkSet = [])
     {
@@ -29,7 +29,7 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @param array $jwkSet
+     * @param array<mixed> $jwkSet
      * @return JwkSet
      */
     public function init(array $jwkSet): JwkSet
@@ -44,7 +44,7 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @param array $jwk
+     * @param array<mixed> $jwk
      * @return JwkSet
      */
     public function add(array $jwk): JwkSet
@@ -69,7 +69,7 @@ class JwkSet implements JsonSerializable
 
     /**
      * @param int|string $index
-     * @return array
+     * @return array<mixed>
      */
     public function get($index): array
     {
@@ -81,15 +81,17 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @inheritDoc
+     * @return array<mixed>
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
     /**
      * Transfer to array
+     *
+     * @return array<mixed>
      */
     public function toArray(): array
     {

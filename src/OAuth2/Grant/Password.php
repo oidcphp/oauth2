@@ -17,7 +17,7 @@ class Password extends GrantType
     protected $grantType = 'password';
 
     /**
-     * @var array
+     * @var array<string>
      */
     protected $requiredParameters = [
         'username',

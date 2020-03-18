@@ -8,6 +8,7 @@ use OpenIDConnect\Support\Http\Query;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriFactoryInterface;
+use Psr\Http\Message\UriInterface;
 
 /**
  * @see https://tools.ietf.org/html/rfc6749#section-4.1.1
@@ -17,6 +18,10 @@ class AuthorizationRedirectResponseBuilder
 {
     use BuilderTrait;
 
+    /**
+     * @param array<mixed> $parameters
+     * @return ResponseInterface
+     */
     public function build(array $parameters): ResponseInterface
     {
         /** @var ResponseFactoryInterface $responseFactory */
@@ -26,7 +31,11 @@ class AuthorizationRedirectResponseBuilder
             ->withHeader('Location', (string)$this->createAuthorizeUri($parameters));
     }
 
-    private function createAuthorizeUri(array $parameters)
+    /**
+     * @param array<mixed> $parameters
+     * @return UriInterface
+     */
+    private function createAuthorizeUri(array $parameters): UriInterface
     {
         /** @var UriFactoryInterface $uriFactory */
         $uriFactory = $this->container->get(UriFactoryInterface::class);

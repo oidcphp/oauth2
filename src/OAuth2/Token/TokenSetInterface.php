@@ -56,7 +56,7 @@ interface TokenSetInterface extends JsonSerializable
 
     /**
      * @see https://tools.ietf.org/html/rfc6749#section-5.1
-     * @return array|null
+     * @return array<string>|null
      */
     public function scope(): ?array;
 }

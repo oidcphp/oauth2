@@ -21,15 +21,15 @@ abstract class GrantType
     /**
      * Required parameters when call token endpoint
      *
-     * @var array
+     * @var array<string>
      */
     protected $requiredParameters = [];
 
     /**
      * Prepares the parameters used on token endpoint
      *
-     * @param array $parameters
-     * @return array
+     * @param array<mixed> $parameters
+     * @return array<mixed>
      */
     public function prepareTokenRequestParameters(array $parameters): array
     {

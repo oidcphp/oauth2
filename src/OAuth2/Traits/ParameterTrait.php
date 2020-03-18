@@ -9,10 +9,13 @@ use DomainException;
 
 trait ParameterTrait
 {
+    /**
+     * @var array<string>
+     */
     protected static $snakeCache = [];
 
     /**
-     * @var array
+     * @var array<mixed>
      */
     protected $parameters = [];
 
@@ -40,6 +43,11 @@ trait ParameterTrait
         return static::$snakeCache[$key] = $key;
     }
 
+    /**
+     * @param string $name
+     * @param array<mixed> $arguments
+     * @return mixed
+     */
     public function __call($name, $arguments)
     {
         $key = static::snake($name);
@@ -73,7 +81,7 @@ trait ParameterTrait
     }
 
     /**
-     * @param array $keys
+     * @param array<string> $keys
      */
     public function assertHasKeys(array $keys): void
     {
@@ -103,6 +111,7 @@ trait ParameterTrait
 
     /**
      * @see \JsonSerializable
+     * @return array<mixed>
      */
     public function jsonSerialize()
     {
@@ -122,7 +131,7 @@ trait ParameterTrait
     }
 
     /**
-     * @return array
+     * @return array<mixed>
      */
     public function toArray(): array
     {
