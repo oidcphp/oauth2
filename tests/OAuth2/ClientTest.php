@@ -6,6 +6,7 @@ use GuzzleHttp\Psr7\Request;
 use GuzzleHttp\Psr7\Response;
 use Http\Client\Exception\NetworkException;
 use InvalidArgumentException;
+use MilesChou\Mocker\GuzzleMocker;
 use OpenIDConnect\OAuth2\Client;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ClientException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
@@ -95,7 +96,7 @@ class ClientTest extends TestCase
                 'redirect_uri' => 'https://someredirect',
             ]),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])
@@ -122,7 +123,7 @@ class ClientTest extends TestCase
                 'redirect_uri' => 'https://someredirect',
             ]),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient([
+                ClientInterface::class => GuzzleMocker::createPsr18Client([
                     new NetworkException('whatever', new Request('GET', 'whatever')),
                 ]),
             ])
@@ -147,7 +148,7 @@ class ClientTest extends TestCase
                 'redirect_uri' => 'https://someredirect',
             ]),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient([
+                ClientInterface::class => GuzzleMocker::createPsr18Client([
                     new Response(200, [], 'whatever'),
                 ]),
             ])
@@ -172,8 +173,8 @@ class ClientTest extends TestCase
                 'redirect_uri' => 'https://someredirect',
             ]),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient([
-                    $this->createHttpJsonResponse(['error' => 'whatever']),
+                ClientInterface::class => GuzzleMocker::createPsr18Client([
+                    GuzzleMocker::createResponseByJson(['error' => 'whatever']),
                 ]),
             ])
         );
@@ -211,7 +212,7 @@ class ClientTest extends TestCase
             $this->createProviderMetadata(),
             $this->createClientInformation(),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])
@@ -235,7 +236,7 @@ class ClientTest extends TestCase
             $this->createProviderMetadata(),
             $this->createClientInformation(),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])
@@ -260,7 +261,7 @@ class ClientTest extends TestCase
             $this->createProviderMetadata(),
             $this->createClientInformation(),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])
@@ -284,7 +285,7 @@ class ClientTest extends TestCase
             $this->createProviderMetadata(),
             $this->createClientInformation(),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])
@@ -307,7 +308,7 @@ class ClientTest extends TestCase
             $this->createProviderMetadata(),
             $this->createClientInformation(),
             $this->createContainer([
-                ClientInterface::class => $this->createHttpClient($this->createFakeTokenEndpointResponse([
+                ClientInterface::class => GuzzleMocker::createPsr18Client($this->createFakeTokenEndpointResponse([
                     'access_token' => 'some-access-token',
                 ])),
             ])

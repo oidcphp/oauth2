@@ -2,13 +2,8 @@
 
 namespace Tests;
 
-use GuzzleHttp\Client as HttpClient;
-use GuzzleHttp\Handler\MockHandler;
-use GuzzleHttp\HandlerStack;
-use GuzzleHttp\Middleware;
-use GuzzleHttp\Psr7\Response as HttpResponse;
-use Http\Adapter\Guzzle6\Client as Psr18Client;
 use Illuminate\Container\Container;
+use MilesChou\Mocker\GuzzleMocker;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
 use OpenIDConnect\OAuth2\Token\TokenFactory;
@@ -21,8 +16,6 @@ use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
-
-use function GuzzleHttp\json_encode;
 
 class TestCase extends \PHPUnit\Framework\TestCase
 {
@@ -47,45 +40,6 @@ class TestCase extends \PHPUnit\Framework\TestCase
         ], $overwrite);
     }
 
-    /**
-     * Creates HTTP client.
-     *
-     * @param ResponseInterface|ResponseInterface[] $responses
-     * @param array $history
-     * @return HandlerStack
-     */
-    protected function createHandlerStack($responses = [], &$history = []): HandlerStack
-    {
-        if (!is_array($responses)) {
-            $responses = [$responses];
-        }
-
-        $handler = HandlerStack::create(new MockHandler($responses));
-        $handler->push(Middleware::history($history));
-
-        return $handler;
-    }
-
-    protected function createHttpClient($responses = [], &$history = []): ClientInterface
-    {
-        return new Psr18Client(new HttpClient($this->createHttpMockOption($responses, $history)));
-    }
-
-    protected function createHttpJsonResponse(
-        array $data = [],
-        int $status = 200,
-        array $headers = []
-    ): ResponseInterface {
-        return new HttpResponse($status, $headers, json_encode($data));
-    }
-
-    protected function createHttpMockOption($responses = [], &$history = []): array
-    {
-        return [
-            'handler' => $this->createHandlerStack($responses, $history),
-        ];
-    }
-
     protected function createProviderMetadata($overwrite = []): ProviderMetadata
     {
         return new ProviderMetadata($this->createProviderMetadataConfig($overwrite));
@@ -102,7 +56,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createFakeTokenEndpointResponse($overwrite = [], $status = 200, $headers = []): ResponseInterface
     {
-        return $this->createHttpJsonResponse($this->createFakeTokenSetParameter($overwrite), $status, $headers);
+        return GuzzleMocker::createResponseByJson($this->createFakeTokenSetParameter($overwrite), $status, $headers);
     }
 
     protected function createFakeTokenSetParameter($overwrite = []): array
@@ -122,7 +76,7 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
         $container->singleton(ClientInterface::class, function () use ($instances) {
             if (empty($instances[ClientInterface::class])) {
-                return $this->createHttpClient();
+                return GuzzleMocker::createPsr18Client();
             }
 
             return $instances[ClientInterface::class];
