@@ -3,18 +3,25 @@
 namespace Tests;
 
 use Illuminate\Container\Container;
+use Laminas\Diactoros\RequestFactory;
+use Laminas\Diactoros\ResponseFactory;
+use Laminas\Diactoros\ServerRequestFactory;
+use Laminas\Diactoros\StreamFactory;
+use Laminas\Diactoros\UploadedFileFactory;
+use Laminas\Diactoros\UriFactory;
 use MilesChou\Mocker\GuzzleMocker;
 use OpenIDConnect\OAuth2\Metadata\ClientInformation;
 use OpenIDConnect\OAuth2\Metadata\ProviderMetadata;
 use OpenIDConnect\OAuth2\Token\TokenFactory;
 use OpenIDConnect\OAuth2\Token\TokenFactoryInterface;
-use OpenIDConnect\Support\Laravel\HttpFactoryServiceProvider;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
 use Psr\Http\Message\StreamFactoryInterface;
+use Psr\Http\Message\UploadedFileFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 
 class TestCase extends \PHPUnit\Framework\TestCase
@@ -90,7 +97,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
             return $instances[TokenFactoryInterface::class];
         });
 
-        (new HttpFactoryServiceProvider($container))->register();
+        $container->singleton(ResponseFactoryInterface::class, ResponseFactory::class);
+        $container->singleton(RequestFactoryInterface::class, RequestFactory::class);
+        $container->singleton(ServerRequestFactoryInterface::class, ServerRequestFactory::class);
+        $container->singleton(StreamFactoryInterface::class, StreamFactory::class);
+        $container->singleton(UploadedFileFactoryInterface::class, UploadedFileFactory::class);
+        $container->singleton(UriFactoryInterface::class, UriFactory::class);
 
         if (isset($instances[StreamFactoryInterface::class])) {
             $container->instance(StreamFactoryInterface::class, $instances[StreamFactoryInterface::class]);
