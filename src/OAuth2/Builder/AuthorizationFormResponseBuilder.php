@@ -6,6 +6,8 @@ namespace OpenIDConnect\OAuth2\Builder;
 
 use DomainException;
 use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -15,8 +17,10 @@ class AuthorizationFormResponseBuilder
     use BuilderTrait;
 
     /**
-     * @param array<mixed> $parameters
+     * @param array $parameters
      * @return ResponseInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function build(array $parameters): ResponseInterface
     {
@@ -31,7 +35,7 @@ class AuthorizationFormResponseBuilder
     }
 
     /**
-     * @param array<mixed> $parameters
+     * @param array $parameters
      * @return string
      */
     private function generateForm(array $parameters): string
@@ -45,7 +49,7 @@ class AuthorizationFormResponseBuilder
 
     /**
      * @param string $url
-     * @param array<mixed> $parameters
+     * @param array $parameters
      * @return string
      */
     private function generateHtml(string $url, array $parameters): string

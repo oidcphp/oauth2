@@ -2,6 +2,8 @@
 
 namespace Tests;
 
+use GuzzleHttp\Psr7\HttpFactory;
+use GuzzleHttp\Psr7\Utils;
 use Illuminate\Container\Container;
 use Laminas\Diactoros\RequestFactory;
 use Laminas\Diactoros\ResponseFactory;
@@ -63,7 +65,12 @@ class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function createFakeTokenEndpointResponse($overwrite = [], $status = 200, $headers = []): ResponseInterface
     {
-        return GuzzleMocker::createResponseByJson($this->createFakeTokenSetParameter($overwrite), $status, $headers);
+        $response = (new HttpFactory())->createResponse($status)
+            ->withBody(Utils::streamFor(json_encode($this->createFakeTokenSetParameter($overwrite))));
+
+        return array_reduce($headers, function (ResponseInterface $response, $value, $key) {
+            return $response->withHeader($value, $key);
+        }, $response);
     }
 
     protected function createFakeTokenSetParameter($overwrite = []): array

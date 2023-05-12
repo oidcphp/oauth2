@@ -9,13 +9,13 @@ trait ProviderMetadataAwaitTrait
     /**
      * @var ProviderMetadata
      */
-    protected $providerMetadata;
+    protected ProviderMetadata $providerMetadata;
 
     /**
      * @param ProviderMetadata $providerMetadata
      * @return static
      */
-    public function setProviderMetadata(ProviderMetadata $providerMetadata)
+    public function setProviderMetadata(ProviderMetadata $providerMetadata): static
     {
         $this->providerMetadata = $providerMetadata;
 

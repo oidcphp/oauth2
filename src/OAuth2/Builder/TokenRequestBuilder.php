@@ -7,6 +7,8 @@ namespace OpenIDConnect\OAuth2\Builder;
 use OpenIDConnect\OAuth2\ClientAuthentication\ClientAuthenticationAwareTrait;
 use OpenIDConnect\OAuth2\Grant\GrantType;
 use OpenIDConnect\OAuth2\Utils\Query;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\RequestInterface;
 use Psr\Http\Message\StreamFactoryInterface;
@@ -23,8 +25,10 @@ class TokenRequestBuilder
 
     /**
      * @param GrantType $grantType
-     * @param array<mixed> $parameters
+     * @param array $parameters
      * @return RequestInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function build(GrantType $grantType, array $parameters): RequestInterface
     {

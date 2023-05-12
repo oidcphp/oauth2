@@ -1,32 +1,32 @@
 #!/usr/bin/make -f
 
-PHP_MAJOR_VERSION := $(shell php -r "echo PHP_MAJOR_VERSION;")
+PROCESSORS_NUM := $(shell getconf _NPROCESSORS_ONLN)
+GLOBAL_CONFIG := -d memory_limit=-1
 
-.PHONY: all clean clean-all check test analyse coverage
+# -----------------------------------------------------------------------------
 
-# ---------------------------------------------------------------------
 
-all: test analyse
+.PHONY: all
+all: check test
 
+.PHONY: clean
 clean:
 	rm -rf ./build
 
+.PHONY: clean-all
 clean-all: clean
 	rm -rf ./vendor
 	rm -rf ./composer.lock
 
+.PHONY: check
 check:
-	php vendor/bin/phpcs
+	mkdir -p build
+	php ${GLOBAL_CONFIG} vendor/bin/phpcs --parallel=${PROCESSORS_NUM} --report-junit=build/phpcs.xml
 
-test: clean check
-ifeq ($(PHP_MAJOR_VERSION), 7)
-	phpdbg -qrr vendor/bin/phpunit
-else
-	php vendor/bin/phpunit
-endif
+.PHONY: test
+test: clean
+	php -d xdebug.mode=coverage vendor/bin/phpunit
 
-analyse:
-	php vendor/bin/phpstan analyse src --level=max
-
+.PHONY: coverage
 coverage: test
 	@if [ "`uname`" = "Darwin" ]; then open build/coverage/index.html; fi

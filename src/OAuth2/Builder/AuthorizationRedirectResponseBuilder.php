@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace OpenIDConnect\OAuth2\Builder;
 
 use OpenIDConnect\OAuth2\Utils\Query;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\UriFactoryInterface;
@@ -32,8 +34,10 @@ class AuthorizationRedirectResponseBuilder
     }
 
     /**
-     * @param array<mixed> $parameters
+     * @param array $parameters
      * @return UriInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     private function createAuthorizeUri(array $parameters): UriInterface
     {

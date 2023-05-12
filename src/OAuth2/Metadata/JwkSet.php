@@ -16,12 +16,12 @@ use OpenIDConnect\OAuth2\Exceptions\OAuth2ServerException;
 class JwkSet implements JsonSerializable
 {
     /**
-     * @var array<mixed>
+     * @var array
      */
-    private $keys = [];
+    private array $keys = [];
 
     /**
-     * @param array<mixed> $jwkSet
+     * @param array $jwkSet
      */
     public function __construct(array $jwkSet = [])
     {
@@ -29,7 +29,7 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @param array<mixed> $jwkSet
+     * @param array $jwkSet
      * @return JwkSet
      */
     public function init(array $jwkSet): JwkSet
@@ -44,7 +44,7 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @param array<mixed> $jwk
+     * @param array $jwk
      * @return JwkSet
      */
     public function add(array $jwk): JwkSet
@@ -62,16 +62,16 @@ class JwkSet implements JsonSerializable
      * @param int|string $index
      * @return bool
      */
-    public function has($index): bool
+    public function has(int | string $index): bool
     {
         return array_key_exists($index, $this->keys);
     }
 
     /**
      * @param int|string $index
-     * @return array<mixed>
+     * @return array
      */
-    public function get($index): array
+    public function get(int | string $index): array
     {
         if (!$this->has($index)) {
             throw new InvalidArgumentException('Undefined index');
@@ -81,7 +81,7 @@ class JwkSet implements JsonSerializable
     }
 
     /**
-     * @return array<mixed>
+     * @return array
      */
     public function jsonSerialize(): array
     {
@@ -91,7 +91,7 @@ class JwkSet implements JsonSerializable
     /**
      * Transfer to array
      *
-     * @return array<mixed>
+     * @return array
      */
     public function toArray(): array
     {

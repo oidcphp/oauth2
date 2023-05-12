@@ -9,7 +9,7 @@ trait ClientAuthenticationAwareTrait
     /**
      * @var ClientAuthentication|null
      */
-    protected $clientAuthentication;
+    protected ?ClientAuthentication $clientAuthentication = null;
 
     /**
      * Default method for client authentication is ClientSecretBasic
@@ -31,7 +31,7 @@ trait ClientAuthenticationAwareTrait
      * @param ClientAuthentication|null $clientAuthentication
      * @return static
      */
-    public function setClientAuthentication(?ClientAuthentication $clientAuthentication)
+    public function setClientAuthentication(?ClientAuthentication $clientAuthentication): static
     {
         $this->clientAuthentication = $clientAuthentication;
 

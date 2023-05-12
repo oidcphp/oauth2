@@ -16,12 +16,12 @@ class ClientSecretBasic implements ClientAuthentication
     /**
      * @var string
      */
-    private $client;
+    private string $client;
 
     /**
      * @var string
      */
-    private $secret;
+    private string $secret;
 
     /**
      * @param string $client

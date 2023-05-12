@@ -9,13 +9,13 @@ trait ClientInformationAwaitTrait
     /**
      * @var ClientInformation
      */
-    protected $clientInformation;
+    protected ClientInformation $clientInformation;
 
     /**
      * @param ClientInformation $clientInformation
      * @return static
      */
-    public function setClientInformation(ClientInformation $clientInformation)
+    public function setClientInformation(ClientInformation $clientInformation): static
     {
         $this->clientInformation = $clientInformation;
 

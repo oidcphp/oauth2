@@ -17,7 +17,7 @@ class ClientMetadata implements JsonSerializable
     use ParameterTrait;
 
     /**
-     * @param array<mixed> $metadata
+     * @param array $metadata
      */
     public function __construct(array $metadata = [])
     {

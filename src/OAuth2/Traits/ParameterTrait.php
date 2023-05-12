@@ -12,12 +12,12 @@ trait ParameterTrait
     /**
      * @var array<string>
      */
-    protected static $snakeCache = [];
+    protected static array $snakeCache = [];
 
     /**
-     * @var array<mixed>
+     * @var array
      */
-    protected $parameters = [];
+    protected array $parameters = [];
 
     /**
      * Convert a string to snake case
@@ -45,10 +45,10 @@ trait ParameterTrait
 
     /**
      * @param string $name
-     * @param array<mixed> $arguments
+     * @param array $arguments
      * @return mixed
      */
-    public function __call($name, $arguments)
+    public function __call(string $name, array $arguments)
     {
         $key = static::snake($name);
 
@@ -63,7 +63,7 @@ trait ParameterTrait
      * @param mixed $item
      * @return static
      */
-    public function append($item)
+    public function append(mixed $item): static
     {
         $this->parameters[] = $item;
 
@@ -71,9 +71,9 @@ trait ParameterTrait
     }
 
     /**
-     * @param string|int $key
+     * @param int|string $key
      */
-    public function assertHasKey($key): void
+    public function assertHasKey(int | string $key): void
     {
         if (!$this->has($key)) {
             throw new DomainException("Missing parameter key: '{$key}'");
@@ -95,7 +95,7 @@ trait ParameterTrait
      * @param mixed|null $default
      * @return mixed
      */
-    public function get($key, $default = null)
+    public function get($key, $default = null): mixed
     {
         return $this->parameters[$key] ?? $default;
     }
@@ -109,11 +109,7 @@ trait ParameterTrait
         return isset($this->parameters[$key]);
     }
 
-    /**
-     * @see \JsonSerializable
-     * @return array<mixed>
-     */
-    public function jsonSerialize()
+    public function jsonSerialize(): mixed
     {
         return $this->toArray();
     }
@@ -123,7 +119,7 @@ trait ParameterTrait
      * @return mixed
      * @throws DomainException
      */
-    public function require($key)
+    public function require($key): mixed
     {
         $this->assertHasKey($key);
 
@@ -131,7 +127,7 @@ trait ParameterTrait
     }
 
     /**
-     * @return array<mixed>
+     * @return array
      */
     public function toArray(): array
     {
@@ -141,11 +137,11 @@ trait ParameterTrait
     /**
      * Return a clone object with new value
      *
-     * @param string|int $key
+     * @param int|string $key
      * @param mixed $value
      * @return static
      */
-    public function with($key, $value)
+    public function with(int | string $key, mixed $value): static
     {
         $clone = clone $this;
         $clone->parameters[$key] = $value;
