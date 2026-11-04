@@ -1,5 +1,9 @@
 # OAuth2 Library
 
+> [!WARNING]
+> This package is abandoned and will be archived. It was merged into [`oidc/core`](https://github.com/oidcphp/core) on 2020-03-22 and is no longer maintained.
+> Please use `oidc/core` instead. See oidcphp/oauth2#3.
+
 [![License](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/oidcphp/oauth2/blob/master/LICENSE)
 [![Build Status](https://travis-ci.com/oidcphp/oauth2.svg?branch=master)](https://travis-ci.com/oidcphp/oauth2)
 [![Coverage Status](https://codecov.io/gh/oidcphp/oauth2/branch/master/graph/badge.svg)](https://codecov.io/gh/oidcphp/oauth2)
